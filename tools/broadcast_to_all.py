@@ -3,66 +3,58 @@ import os
 import sqlite3
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from global_utils import query_omlx_llm, send_agentmail_packet, DB_PATH
+from global_utils import send_agentmail_packet, DB_PATH
 
-def execute_hermes_broadcast(course_code, lecture_id):
+def execute_generic_broadcast(course_code, subject, body_content):
     """
-    Pulls the active student cohort emails from the database ledger, uses the local LLM
-    to generate an introductory message from Agent Hermes, and broadcasts it out.
+    A pure pipeline tool: Pulls the roster for a specific course 
+    and broadcasts any arbitrary subject and message body provided.
     """
-    print(f"📣 [Hermes Engine] Initializing system welcome broadcast for {course_code} - {lecture_id}...")
+    print(f"📣 [Broadcast Engine] Initializing email blast for course: {course_code}...")
     
-    # 1. Fetch distinct student emails and names from your database tracking ledger
+    # 1. Pull the roster for the target course from the database ledger
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT DISTINCT email, student_name FROM Lec01_responses WHERE email IS NOT NULL")
+        
+        # Check if course_code filtering is available in the schema
+        cursor.execute("PRAGMA table_info(Lec01_responses)")
+        columns = [col[1] for col in cursor.fetchall()]
+        
+        if "course_code" in columns:
+            cursor.execute("SELECT DISTINCT email, student_name FROM Lec01_responses WHERE course_code = ? AND email IS NOT NULL", (course_code.upper(),))
+        else:
+            cursor.execute("SELECT DISTINCT email, student_name FROM Lec01_responses WHERE email IS NOT NULL")
+            
         roster = cursor.fetchall()
         conn.close()
     except Exception as e:
-        print(f"❌ Aborting Broadcast: Unable to connect to roster records. {str(e)}")
+        print(f"❌ Aborting Broadcast: Database connection failure. {str(e)}")
         return False
         
     if not roster:
-        print("⚠️ Broadcast Hold: No active student records found inside the database ledger.")
+        print(f"⚠️ Broadcast Hold: No active student records located for course '{course_code}'.")
         return False
 
-    # 2. Instruct the LLM to generate Hermes' official persona introduction message
-    system_persona = "You are Hermes, the quick and friendly automated messenger agent for Prof. Sudhir's course. You speak with clarity, utilizing a touch of crisp technical authority."
-    user_prompt = (
-        f"Compose an introductory message welcoming students to the course '{course_code}'. "
-        "Briefly explain the backend players in this system architecture:\n"
-        "1. Ornith (The Intent Parse Gateway - interprets your emails and instructions)\n"
-        "2. Qwen (The Evaluation Engine - analyzes submissions against grading rubrics)\n"
-        "3. Hermes (Your Outbound Courier - brings immediate alerts and reports straight to your inbox)\n\n"
-        "Keep the note under 4 concise paragraphs and end with a signature from Agent Hermes."
-    )
-    
-    print("🧠 Requesting persona message compilation from the local LLM engine...")
-    welcome_message = query_omlx_llm("Qwen3.6-35B-A3B-4bit", system_persona, user_prompt)
-    
-    print("\n📝 Generated Persona Message Preview:")
-    print("------------------------------------------------------------")
-    print(welcome_message)
-    print("------------------------------------------------------------\n")
-    
-    # 3. Step through the active cohort roster array and dispatch emails
+    # 2. Loop through the roster and dispatch the exact text provided
     success_count = 0
     for email, name in roster:
-        subject_line = f"🎓 Welcome to {course_code} — Message from Agent Hermes"
-        personalized_body = f"Hello {name},\n\n{welcome_message}"
+        # Prepend a personalized greeting to keep the email clean
+        personalized_body = f"Dear {name},\n\n{body_content}"
         
-        # In actual execution, this relays straight out via AgentMail API
-        status, msg = send_agentmail_packet(email, subject_line, personalized_body)
+        status, msg = send_agentmail_packet(email, subject, personalized_body)
         if status:
             success_count += 1
-            print(f"   📬 Dispatched introduction packet successfully to: {email}")
+            print(f"   📬 Sent to: {email}")
         else:
-            print(f"   ⚠️ Relay latency detour for {email}: {msg} (Simulated execution logged)")
+            print(f"   ⚠️ Network detour for {email}: {msg} (Log record created)")
             
-    print(f"\n✨ Broadcast processing complete. Distributed introductory packets to {success_count} student endpoints.")
+    print(f"\n✨ Broadcast complete. Distributed packets to {success_count} student endpoints.")
     return True
 
 if __name__ == "__main__":
-    # Test-driving the script locally to evaluate runtime loops
-    execute_hermes_broadcast("MTGT", "Lec01")
+    # Test-driving the clean, generic tool loop with sample inputs
+    sample_subject = "Important Update: Review Assignment Parameters"
+    sample_body = "Please review the updated case study guidelines on the portal before tomorrow's session."
+    
+    execute_generic_broadcast("MTGT", sample_subject, sample_body)
