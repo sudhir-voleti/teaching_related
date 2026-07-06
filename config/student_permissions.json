@@ -1,0 +1,18 @@
+{
+  "roles": {
+    "admins": [
+      "sudhir_voleti@isb.edu"
+    ]
+  },
+  "permissions": {
+    "student_accessible_skills": [
+      "fetch_ledger",
+      "request_concept_analogy"
+    ],
+    "admin_only_skills": [
+      "eval_responses",
+      "wipe_lecture_ledger",
+      "broadcast_roster_grades"
+    ]
+  }
+}
