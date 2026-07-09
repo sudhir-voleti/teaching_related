@@ -1,0 +1,77 @@
+================================================================================
+PROJECT SYSTEM STATUS & HANDOFF MANIFEST: MARKETING AGENT OS
+================================================================================
+Generated On: 2026-07-07 11:35 AM IST
+Host Environment: Mac Studio (macOS)
+Target Course: MTGT1 (Quantitative Marketing Science & LLM Orchestration)
+Professor: Sudhir Voleti
+
+1. EXECUTIVE OVERVIEW & ARCHITECTURAL PHILOSOPHY
+--------------------------------------------------------------------------------
+The Marketing Agent OS is a localized, production-grade agentic hub running on a Mac Studio. It orchestrates course logistics, analytical grading, student response parsing, and knowledge graphs. 
+
+The architecture enforces a strict "Task Unbundling" pattern and a "Dual-Brain" cognitive layer split:
+- Fast-Pass Lane: Hardcoded, deterministic regex-based routing for high-frequency actions (like MCQ grading) that skips the LLM entirely to guarantee millisecond latency and absolute reliability.
+- Cognitive Layer: A multi-turn reasoning hierarchy. Turn 0 and 1 are handled by a lightweight discovery model (Ornith-1.0-9B-oQ4-fp16) running on restricted tools to verify local environment paths. Turn 2 onwards escalates cleanly to a master reasoning model (Qwen3.6-27B-5bit) to complete complex summarizations and final resolutions.
+
+2. CURRENT ACTIVE DIRECTORY LAYOUT & SYSTEM PATHS
+--------------------------------------------------------------------------------
+Root Project Path: /Users/sudhirvoleti/teaching_trials/courses/MTGT1/marketing-agent-os/
+
+├── gateway/
+│   ├── gateway_daemon.py      # The active running service polling background inputs
+│   └── processed_emails.txt   # State register tracking processed unique message IDs
+├── db/
+│   ├── course_data.db         # Core data store holding student response rosters
+│   └── agent_memory.db        # Semantic relational graph database for memory retention
+├── tools/
+│   ├── global_utils.py        # Holds global variables (AGENTMAIL_KEY, INBOX_ID, query_omlx_llm)
+│   ├── send_email.py          # Wrapper executing outbound dispatches via SMTP/AgentMail
+│   └── process_mcqs.py        # Core analytics script calculating scores and compiling charts
+├── mcp_servers/
+│   ├── mcp_filesystem.py      # Local tool mapping standard directory lookup actions
+│   ├── mcp_sqlite.py          # Local tool wrapping safe relational database execution blocks
+│   ├── mcp_web_search.py      # Local translation script handling web searches via DuckDuckGo Lite
+│   └── mcp_memory.py          # Graph memory layer managing semantic node attachments
+└── assets/                    # UNIFIED SINGLE DIRECTORY storing all static resources
+    └── course_outline.txt     # Seeded text document mapping academic lecture outlines
+
+3. CORE SUBSYSTEM ANALYSIS & TOOL MATRICES
+--------------------------------------------------------------------------------
+A. The Inbound Gateway Protocol (gateway_daemon.py)
+   - Status: Active and Stable.
+   - Mechanism: Polls your existing AgentMail API infrastructure.
+   - Critical Immunization: Integrates a bulletproof trail isolation splitter. Upon intercepting an incoming email packet, the daemon instantly slices the string at the earliest thread border signature (`-----Original Message-----` or `on ... wrote:`). This isolates the fresh, top-level text layer and permanently shields the agent from reading or getting disoriented by older historical text trails.
+
+B. The Database Subsystem (db/course_data.db)
+   - Status: Fully Operational.
+   - Verified Tables: Natively introspects and verifies student tables:
+     - `Lec01_responses`
+     - `Lec02_responses`
+   - Test State: Verified via unit tests that query tables and column profiles cleanly.
+
+C. Semantic Graph Memory Store (mcp_servers/mcp_memory.py)
+   - Status: Operational.
+   - Mechanism: Uses an SQLite background store to form semantic links between entities.
+   - State Test: Successfully linked and retrieved the historical relational node edge:
+     `Lec02 -[utilizes_distribution]-> Tweedie`
+
+D. Web Search Layer (mcp_servers/mcp_web_search.py)
+   - Status: Functional but fragile (Ad-Hoc scraper translation).
+   - Limitation: Relies on parsing DuckDuckGo's raw HTML interface which is prone to layout drift.
+   - Next Action: Ready to scale up to the official open-source `@modelcontextprotocol/server-brave-search` system-wide Node package once a secure developer API token is registered.
+
+4. CRITICAL RECENT VERSION DRIFT & ARCHITECTURAL LESSONS
+--------------------------------------------------------------------------------
+- RULE OF SURGICAL EDITS: Full script code blocks must NOT be repeatedly regenerated to prevent silent layout indentation anomalies and process port-binding lockups. Code refinement must occur exclusively through targeted, line-level regex replacements or file line overrides.
+- PRE-PARSING PATHS: In multi-turn reasoning cycles, absolute file paths passed by the models must be checked for path-doubling errors. A patch has been applied to the `list_directory` interface to strip redundant path chains down to relative workspace scopes dynamically.
+- AGENTMAIL INFRASTRUCTURE: Because AgentMail is already fully operational as your webhook router, no local IMAP/SMTP configurations or App Passwords are required. The gateway daemon handles everything using your active embedded keys.
+
+5. IMMEDIATE ACTION REQUIRED IN NEXT CHAT CONTEXT
+--------------------------------------------------------------------------------
+1. To spin up the backend communication loop, execute the clean initialization lines sequentially in the terminal:
+   pkill -9 -f gateway_daemon.py
+   python3 /Users/sudhirvoleti/teaching_trials/courses/MTGT1/marketing-agent-os/gateway/gateway_daemon.py
+2. Verify that the output prints: `📡 OS CONTINUOUS REASONING LOOP LIVE (TRAIL ISOLATION ENGAGED)...`
+3. Proceed with testing the multi-turn cognitive routing loop by verifying Qwen's ability to locate `assets/course_outline.txt`, parse it, and return a `"final_response"` loop breakout without logging tool errors or falling back to the fast-pass defaults.
+================================================================================

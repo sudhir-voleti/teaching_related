@@ -1,0 +1,24 @@
+{
+  "skill_id": "SKILL_WELCOME_BLAST",
+  "description": "Compiles database roster and ships welcome attachments in a clean bulk matrix pass.",
+  "execution_sequence": [
+    {
+      "step": 1,
+      "action": "log_to_terminal",
+      "args": ["Initializing Production Bulk Campaign Sequence..."],
+      "purpose": "Acknowledge step initialization."
+    },
+    {
+      "step": 2,
+      "action": "send_bulk_campaign",
+      "args": ["Lec02_responses", "Welcome to MTGT1: Marketing Management", "welcome_message.txt"],
+      "purpose": "Execute backend database blast with attached welcome file asset."
+    },
+    {
+      "step": 3,
+      "action": "terminate_session",
+      "args": ["Bulk campaign dispatches verified. Thread closing."],
+      "purpose": "Clean loop escape."
+    }
+  ]
+}

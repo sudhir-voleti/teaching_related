@@ -1,0 +1,21 @@
+{
+  "course": "MTGT1",
+  "evaluation_vectors": {
+    "data_rigor": {
+      "weight": 0.40,
+      "description": "Correct application of statistical methodologies, data frame parsing, and anomaly checks."
+    },
+    "econometric_inference": {
+      "weight": 0.40,
+      "description": "Interpretation of parameters, model convergence stability, and first-principles reasoning."
+    },
+    "strategic_actionability": {
+      "weight": 0.20,
+      "description": "Translation of quantitative findings into concise, data-driven executive recommendations."
+    }
+  },
+  "grading_scale": {
+    "max_stars": 5.0,
+    "passing_threshold": 3.0
+  }
+}

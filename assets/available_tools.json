@@ -1,0 +1,168 @@
+[
+  {
+    "tool_name": "mcp_sqlite.execute_query",
+    "tool_inputs": [
+      {
+        "name": "query_string",
+        "type": "string",
+        "description": "A valid SQL command string (SELECT, UPDATE, INSERT) to run against the database."
+      }
+    ],
+    "tool_processing_logic": "Establishes a safe context connection to the local database path (/db/course_data.db). It compiles and runs the raw SQL string against the active engine, safely handles concurrency locks, commits changes if necessary, and formats rows into a standard structured array.",
+    "tool_outputs": [
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Indicates execution status: success or error."
+      },
+      {
+        "name": "data",
+        "type": "array of objects",
+        "description": "The raw row records returned from the database tables (e.g., column-value pairs from Lec01_responses or Lec02_responses)."
+      }
+    ]
+  },
+  {
+    "tool_name": "mcp_filesystem.list_directory",
+    "tool_inputs": [
+      {
+        "name": "target_directory",
+        "type": "string",
+        "description": "The directory name relative to the project root (e.g., assets, skills)."
+      }
+    ],
+    "tool_processing_logic": "Resolves the input parameter against the absolute path environment on the Mac Studio. It safely evaluates the tree path, strips out path-doubling anomalies, scans the directory table, and returns an inventory list of existing files.",
+    "tool_outputs": [
+      {
+        "name": "files",
+        "type": "array of strings",
+        "description": "A list of file names detected within that localized space (e.g., [course_outline.txt])."
+      }
+    ]
+  },
+  {
+    "tool_name": "mcp_filesystem.read_file",
+    "tool_inputs": [
+      {
+        "name": "file_path",
+        "type": "string",
+        "description": "The absolute or workspace-relative path pointing to a static text resource (e.g., assets/course_outline.txt)."
+      }
+    ],
+    "tool_processing_logic": "Opens an isolated file stream, reads the raw byte content of the specified text asset, decodes it cleanly using UTF-8 formatting, and yields the unredacted string data directly into the active memory pipeline.",
+    "tool_outputs": [
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Execution status check."
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The full text block inside the target file asset."
+      }
+    ]
+  },
+  {
+    "tool_name": "mcp_memory.add_relation",
+    "tool_inputs": [
+      {
+        "name": "source",
+        "type": "string",
+        "description": "The starting semantic entity node (e.g., Arvind, Lec02)."
+      },
+      {
+        "name": "predicate",
+        "type": "string",
+        "description": "The relational directed edge link (e.g., collaborates_with, utilizes_distribution)."
+      },
+      {
+        "name": "target",
+        "type": "string",
+        "description": "The destination entity node (e.g., Prof_Voleti, Tweedie)."
+      }
+    ],
+    "tool_processing_logic": "Initializes a localized relational schema connection inside db/agent_memory.db. It checks if the target nodes exist, applies an INSERT OR REPLACE constraint to prevent structural duplicates, and maps a directional edge connection between the elements.",
+    "tool_outputs": [
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Confirms the relational linkage was successfully written to the semantic graph table."
+      }
+    ]
+  },
+  {
+    "tool_name": "mcp_memory.query_memory",
+    "tool_inputs": [
+      {
+        "name": "entity_name",
+        "type": "string",
+        "description": "The key string of the node entity to search for (e.g., Lec02)."
+      }
+    ],
+    "tool_processing_logic": "Queries the agent_memory.db tables using a bidirectional join loop. It pulls all structural relationship paths where the target string acts as either a source node or a target node, compiling a complete contextual index map of the entity.",
+    "tool_outputs": [
+      {
+        "name": "entity",
+        "type": "string",
+        "description": "The target node verified."
+      },
+      {
+        "name": "connections",
+        "type": "array of strings",
+        "description": "A list of formatted relational edges (e.g., [-[utilizes_distribution]-> Tweedie])."
+      }
+    ]
+  },
+{
+    "tool_name": "smtp.send_email",
+    "tool_inputs": [
+      {
+        "name": "to",
+        "type": "string",
+        "description": "The target recipient email address (e.g., student_email)."
+      },
+      {
+        "name": "subject",
+        "type": "string",
+        "description": "The subject header line string for the outbound email."
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "description": "The plaintext body content containing the personalized message."
+      }
+    ],
+    "tool_processing_logic": "Establishes a connection to the standard SMTP outbound transmission pipe via the AgentMail SMTP server configuration, validates address syntax, and dispatches the compiled plaintext payload envelope.",
+    "tool_outputs": [
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Execution status check confirming delivery state: success or error."
+      }
+    ]
+  },
+  {
+    "tool_name": "process_quiz",
+    "tool_inputs": [
+      {
+        "name": "course_id",
+        "type": "string",
+        "description": "The course identifier string (e.g., MTGT)."
+      },
+      {
+        "name": "lec_id",
+        "type": "string",
+        "description": "The lecture identifier string (e.g., Lec03)."
+      }
+    ],
+    "tool_processing_logic": "Launches the dynamic lecture-wide macro to sync sheets to the database, run batch Qwen evaluations on open-ended student text questions, and compile/dispatch personalized quiz portfolios over email.",
+    "tool_outputs": [
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Indicates completion state."
+      }
+    ]
+  }
+]

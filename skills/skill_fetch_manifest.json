@@ -1,0 +1,24 @@
+{
+  "skill_id": "SKILL_FETCH_MANIFEST",
+  "description": "Compiles the active local tool mapping and disk skill arrays, dispatching the footprint overview to the instructor.",
+  "execution_sequence": [
+    {
+      "step": 1,
+      "action": "log_to_terminal",
+      "args": ["Compiling core tool matrix and skill inventory blueprint lines..."],
+      "purpose": "Acknowledge operation start."
+    },
+    {
+      "step": 2,
+      "action": "email_inventory_manifest",
+      "args": ["sudhir.voleti@gmail.com"],
+      "purpose": "Trigger native python system audit and transmit data payload over network."
+    },
+    {
+      "step": 3,
+      "action": "terminate_session",
+      "args": ["System inventory map cleanly dispatched to destination inbox. Session tracking closed."],
+      "purpose": "Linear execution checkpoint met. Hard break loop state."
+    }
+  ]
+}

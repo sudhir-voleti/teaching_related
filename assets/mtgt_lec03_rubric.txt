@@ -1,0 +1,3 @@
+A top-tier answer (4-5 stars) must correctly identify structural Go-To-Market (GTM) strategy gaps,
+specifically calling out psychographic/behavioral customer misalignments or choice paralysis in conversion loops.
+Lower-tier answers (1-3 stars) mention broad budget/marketing execution elements without linking back to core consumer needs.

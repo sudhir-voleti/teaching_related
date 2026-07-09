@@ -1,0 +1,60 @@
+{
+  "skill_name": "Roster_Onboarding_And_Broadcast",
+  "expected_inputs": [
+    {
+      "parameter": "Target_Table",
+      "type": "string",
+      "description": "The table inside course_data.db holding student details (e.g., master_roster)."
+    },
+    {
+      "parameter": "Welcome_Message_Asset",
+      "type": "string",
+      "description": "The path to the static text file asset containing the base message greeting."
+    },
+    {
+      "parameter": "Email_Subject",
+      "type": "string",
+      "description": "The subject line string for the outbound email broadcast."
+    }
+  ],
+  "orchestration_sequence": [
+    {
+      "step": 1,
+      "action": "Ingest Roster Emails",
+      "tool_invoke": "mcp_sqlite.execute_query",
+      "arguments": {
+        "query_string": "SELECT DISTINCT student_email, student_name FROM master_roster WHERE enrollment_status = \"Active\";"
+      }
+    },
+    {
+      "step": 2,
+      "action": "Fetch Professor Baseline Message",
+      "tool_invoke": "mcp_filesystem.read_file",
+      "arguments": {
+        "file_path": "assets/welcome_message.txt"
+      }
+    },
+    {
+      "step": 3,
+      "action": "Introspect Available Platform Capabilities",
+      "tool_invoke": "mcp_filesystem.read_file",
+      "arguments": {
+        "file_path": "assets/available_tools.json"
+      }
+    },
+    {
+      "step": 4,
+      "action": "Compile and Dispatch Individualized Iterations",
+      "tool_invoke": "smtp.send_email",
+      "arguments": {
+        "batch_size": 10
+      }
+    }
+  ],
+  "exception_guardrails": [
+    {
+      "condition": "Missing recipient string or invalid address token syntax",
+      "fallback": "Log string failure details to exception matrix, skip current index loop iteration, and continue next batch step immediately."
+    }
+  ]
+}

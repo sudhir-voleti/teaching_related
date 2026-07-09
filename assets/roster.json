@@ -1,0 +1,22 @@
+[
+  {
+    "email": "archanadilpali@gmail.com",
+    "student_name": "Archana Dilpali",
+    "group_id": "Group-Alpha"
+  },
+  {
+    "email": "profsudhirvoleti@gmail.com",
+    "student_name": "Professor Sudhir (Test Endpoint 1)",
+    "group_id": "Group-Beta"
+  },
+  {
+    "email": "sudhir.voleti@gmail.com",
+    "student_name": "Sudhir Voleti (Test Endpoint 2)",
+    "group_id": "Group-Alpha"
+  },
+  {
+    "email": "sudhir_voleti@isb.edu",
+    "student_name": "Prof. Voleti (ISB Endpoint)",
+    "group_id": "Group-Beta"
+  }
+]

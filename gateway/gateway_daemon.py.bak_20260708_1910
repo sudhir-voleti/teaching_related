@@ -69,38 +69,21 @@ def execute_cognitive_loop(cargo, target_model, user_email):
             # Inject defensive fallback context directly to the model to prevent infinite loop confusion
             skill_context = f"\nSYSTEM ERROR: The requested skill '{skill_id}' was not found on disk. Call terminate_session('Skill file missing') immediately."
 
-# --- Dynamic Manifest Integration (First-Principles) ---
-    manifest_path = "/Users/sudhirvoleti/teaching_trials/courses/MTGT1/marketing-agent-os/assets/available_tools.json"
-    try:
-        with open(manifest_path, "r", encoding="utf-8") as f:
-            manifest_data = json.load(f)
-        # Extract names from objects, filtering out any raw string artifacts safely
-        tools_list = [t["tool_name"] for t in manifest_data if isinstance(t, dict) and "tool_name" in t]
-    except Exception:
-        # Fallback list just in case the file disk read drops out
-        tools_list = ["log_to_terminal", "list_available_assets", "read_asset_file", "query_course_ledger", "process_mcq", "process_quiz", "terminate_session"]
+    system_prompt = f"""You are a tool execution core. You must output tool actions using standard naming formatting:
+TOOL_RUN: tool_name(args)
 
-    # Ensure terminate_session is listed as an option if not explicitly present in the manifest
-    if "terminate_session" not in tools_list:
-        tools_list.append("terminate_session")
-        
-    dynamic_tools_string = ", ".join(tools_list)
-
-    # --- Clean & Strict Prompt ---
-    system_prompt = f"""You are a strict tool execution engine. Output ONLY one TOOL_RUN line. No other text ever.
-
-RULES:
-- One TOOL_RUN per response
-- Format: TOOL_RUN: tool_name("arg1", "arg2")
-- End with TOOL_RUN: terminate_session("summary here") when done
-- No chat. No explanations.
-
-Available tools: {dynamic_tools_string}
-
+Available execution actions:
+- TOOL_RUN: read_asset_file("filename")
+- TOOL_RUN: query_course_ledger("SELECT ...")
+- TOOL_RUN: send_bulk_campaign("table_name", "Subject", "attachment_file")
+- TOOL_RUN: send_student_email("email", "Subject", "Body")
+- TOOL_RUN: email_inventory_manifest("recipient_email")
+- TOOL_RUN: log_to_terminal("Message")
+- TOOL_RUN: terminate_session("Summary status report text")
 {skill_context}
-"""
 
-    
+Output ONLY the tool block execution command string. Do not wrap in markdown syntax or add conversational text."""
+
     history = [{"role": "user", "content": cargo}]
     
     for turn in range(12):
@@ -141,16 +124,6 @@ Available tools: {dynamic_tools_string}
             elif tool_name == "send_student_email": tool_result = send_student_email(args[0], args[1], args[2])
             elif tool_name == "email_inventory_manifest": tool_result = email_inventory_manifest(args[0])
             elif tool_name == "log_to_terminal": tool_result = log_to_terminal(args[0])
-            elif tool_name == "process_quiz":
-                import subprocess
-                cmd = ["python3", "/Users/sudhirvoleti/teaching_trials/courses/MTGT1/marketing-agent-os/process_quiz.py", args[0], args[1]]
-                res = subprocess.run(cmd, capture_output=True, text=True)
-                tool_result = f"Master macro run finished: {res.stdout}"
-            elif tool_name == "process_mcq":
-                import subprocess
-                cmd = ["python3", "/Users/sudhirvoleti/teaching_trials/courses/MTGT1/marketing-agent-os/process_mcq.py", args[0], args[1], args[2], user_email]
-                res = subprocess.run(cmd, capture_output=True, text=True)
-                tool_result = f"Pipeline executed. Output: {res.stdout}"
             else: tool_result = f"Error: Tool {tool_name} unknown."
             
             history.append({"role": "assistant", "content": f"TOOL_RUN: {tool_name}({', '.join(args)})"})
@@ -191,51 +164,6 @@ def check_inbound_commands():
             break
     except Exception as e:
         print(f"⚠️ Polling Hiccup: {str(e)}")
-
-def email_inventory_manifest(recipient_email):
-    """
-    Reads global_utils.py, extracts all function signatures, 
-    and emails a plain-text inventory manifest to the recipient.
-    """
-    import os
-    
-    utils_path = '/Users/sudhirvoleti/teaching_trials/courses/MTGT1/marketing-agent-os/tools/global_utils.py'
-    log_to_terminal(f"Generating utility manifest from: {utils_path}")
-    
-    if not os.path.exists(utils_path):
-        log_to_terminal(f"ERROR: File not found at {utils_path}")
-        return False
-        
-    try:
-        manifest_lines = [
-            "==================================================",
-            "        MARKETING AGENT OS - UTILITY MANIFEST       ",
-            "==================================================",
-            "Use these exact signatures to build your cloud-AI",
-            "macro tool sequences (e.g., TOOL_RUN: function_name).\n"
-        ]
-        
-        with open(utils_path, 'r') as f:
-            for line in f:
-                # Catch top-level function definitions
-                if line.startswith('def '):
-                    manifest_lines.append(line.strip())
-                    
-        manifest_lines.append("\n==================================================")
-        manifest_body = "\n".join(manifest_lines)
-        
-        # Dispatch via your active email tool
-        subject = "Agent OS: Live Skills & Tools Manifest"
-        log_to_terminal(f"Sending manifest email to {recipient_email}...")
-        
-        send_agentmail_packet(to_email=recipient_email, subject=subject, body_content=manifest_body)
-        log_to_terminal("✅ Manifest emailed successfully!")
-        return True
-        
-    except Exception as e:
-        log_to_terminal(f"ERROR generating manifest: {str(e)}")
-        return False
-
 
 if __name__ == "__main__":
     print("📡 MATRIX SYSTEM LIVE: STREAMLINED MODEL ROUTING ACTIVATED...")

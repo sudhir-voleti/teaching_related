@@ -1,0 +1,9 @@
+MTGT1: Quantitative Marketing Science & LLM Orchestration
+Professor Sudhir Voleti | Cohort 2026
+
+CORE ACADEMIC LECTURE SEGMENTS:
+- Lecture 01: Foundations of Marketing Econometrics & Data Packet Structuring
+- Lecture 02: Discrete Choice Models, Tweedie Distributions, and Parameter Estimation
+- Lecture 03: Hidden Markov Models (HMM) & Sparse Longitudinal Consumer Tracking
+- Lecture 04: Multi-Modal Agentic Workflows & Native Tool-Calling API Integration
+- Lecture 05: Executive Forensic Auditing & Data-Based Decision Making Models

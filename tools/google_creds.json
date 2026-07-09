@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "mtgt-sandbox",
+  "private_key_id": "5cc2450029d85777aa987baa342f21a46ad0e73a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDInNwSPcaRYoeW\nJRvDHpnB6pV8F0/PVch6+ZDXphvaBvJvpcYuDY1Tw2TZ70nA53fOtFjSCgcOOu5m\nLFyL9vEx61QZIivkpLJm7g1/7zE1G207ONBIxadrxy9qHZh+7blptEWr6FQpAwQF\nsqRvMZBDTZnRG29psrMUvFyzgpqvEd3CeZbnA8y37KVicCluM7i6eOcapm1SPqYd\nnqDDmsYNBdnfPXDp4ubiLS58KbhLlwgo0EYVy0Cx9jOHOMKJRAEuYENSfgWp5BQl\nuHJbboSiEehKSQZwYlWOeflivBBV5Lg6NLDDA3ztoqJb0mF+QsvA3qmrGUyFgcQZ\n709PBHR1AgMBAAECggEAHoHeJKcA0KCdcluLzIEVjEv+dgu8fxDyRyM3H9g6oY4P\nZaOdzuiQLqYG6u5s9pksmsJJxI0yU/tpwB9sZnuD492/4P+VkbRrDeSTKHqpLsSQ\nOKKT6BEou+bjQr2j8F955AV+V91hmQgEn1Iyl9c/c0C0jLxhlb8PZS6c4U6R89/c\nfpdH4nupr/LkEqEFPt5Td1FtUBA5CNasOiH+OVhnObo4Ou8wrwzWIML+8B/CpBlB\nLTXkiS3+0SSuTG4SZuc0siy+J2FEbQN2fB4+/pMQtdIACGyLzIXFpdoOGT+N0i6Z\nN1fWdnqDnX9a1iI6lLAw2p5o1+smt1NNHXUcqvVtGQKBgQDjR3HopxB8JS9ICrva\n0FWUJRWyDNuRvgzRjorzOiqHKULeIggbKMRml35WY+zC8rKK04IxGsXupjA1H/Gw\nlVd9aRmFCL+v6wVC28nqcPeY5ZuQqaHS+/nipQNdjUdSexTXhmmRBKmFv6uMU98c\ntVES4oGAzjzxwQFxEQ0CY/9hTQKBgQDh9r/SoNObR7NQa/MQGsLSq+EEbeEF2EJR\nyVkPskBYNqJ/SHoqda7oOvw4W+EBjVJexFci+LVLLx/xkfCru7f4VV4O8pJBUUSj\nvoSJzvckOWJUZ+PSgUTPhav2FSe0mFScI724dKaFtvdGzCtTCw4HHXtwU9kbsCaJ\nvZ9ggj3LyQKBgQDgEHVqKhoEahxc58gfhrh33r+u0yI8YqL8jYzLEZMPwUvc9qwL\nKnvFsKCqxsSJxP7kAnUduAlep5RrK1z4+6JPTygLkX55DjgXm9tKN6jBoctmKPYS\nrLvEB25z8m5YEGORvz+f6nq+EyIqrB0PjmmpNoj51Vkb9W1YbLjonHEPGQKBgQDH\nXs8hKIWMHFc6PgTX0MTU3JJNNiW04nqhbuYF02CydIIri+c+T1djz6d6kpaUp/xl\nYRcA5DARhiLJIdsXqylHEwtKZPxmZS4Ky65laRbl/zui/Ycl1KjB8U8ocMH3te/x\nVBexCDtk/2puLPaM7tQRsxGWqmSE6YcXQRe+LywXAQKBgCuoJglrStxoVM8GTjMX\n5rU0wNBg9sCXHc47RlYH7y01mGckBrYwbUcjeRJzdrZOJ5OrT00qGrVy8Tsi3KGP\nh9sglfHt6tks+7w3JzUubZUZgx2s56Cn/4s7/A34/hgXlFwTDLN5iGdsOsa+LiYT\ngfJlXwQ7uwk9/g7iu+OzS5Rz\n-----END PRIVATE KEY-----\n",
+  "client_email": "mtgt-sync-robot@mtgt-sandbox.iam.gserviceaccount.com",
+  "client_id": "113627085614140184082",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mtgt-sync-robot%40mtgt-sandbox.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

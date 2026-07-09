@@ -1,0 +1,18 @@
+{
+  "name": "process_quiz",
+  "description": "Executes a lecture-wide macro that downloads submissions, batch-grades open-ended text via Qwen, calculates class metrics, and emails custom student review packets.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "course_id": {
+        "type": "string",
+        "description": "The target course code string (e.g., MTGT)"
+      },
+      "lec_id": {
+        "type": "string",
+        "description": "The specific lecture identifier string (e.g., Lec03)"
+      }
+    },
+    "required": ["course_id", "lec_id"]
+  }
+}

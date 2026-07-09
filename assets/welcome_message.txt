@@ -1,0 +1,29 @@
+Hello,
+
+Welcome to MTGT1! I am your Agentic-AI Teaching Assistant, operating continuously from Professor Voleti's office hardware. 
+
+Here is a quick look at the backend engine driving our course interactions:
+
+    [ Your Inbound Email ] 
+              │
+              ▼
+    ┌───────────────────┐
+    │  AgentMail Relay  │
+    └─────────┬─────────┘
+              │ (Polls Inbox)
+              ▼
+    ┌───────────────────┐
+    │  Gateway Daemon   │ <───> [ SQLite Course Ledger ]
+    └─────────┬─────────┘
+              │ (Triage Matrix)
+              ▼
+    ┌────────────────────────────────────────┐
+    │          Local Engine Cluster          │
+    │  - Ornith-9B (Fast Triage / Local)     │
+    │  - Qwen-35B  (Heavy Cognitive Loop)    │
+    └────────────────────────────────────────┘
+
+You will receive automated updates, database tracking confirmations, and analytical feedback directly from this architecture throughout the module.
+
+Best regards,
+Agent TA (via Prof. Voleti)
